@@ -1,26 +1,45 @@
 package shamrokh.muhammad.leetcode.solutions;
 
 class Solution {
-    public int reverse(int x) {
-        int reversed = 0;
+    public int myAtoi(String s) {
+        int currentChar = 0;
+        int result = 0;
+        int sign = 1;
 
-        // Loop through each digit of the integer
-        while (x != 0) {
-            int currentDigit = x % 10;  // Extract the last digit
-            x /= 10;           // Remove the last digit from x
+        // step1: removing any leading zeros
+        s = s.trim();
 
-            // Check if the reversed integer is going to overflow
-            if (reversed > Integer.MAX_VALUE / 10 || (reversed == Integer.MAX_VALUE / 10 && currentDigit > 7)) {
-                return 0;  // Overflow for positive number
-            }
-            if (reversed < Integer.MIN_VALUE / 10 || (reversed == Integer.MIN_VALUE / 10 && currentDigit < -8)) {
-                return 0;  // Overflow for negative number
-            }
+        //edge case: empty string
+        if(s.isEmpty())
+            return 0;
 
-            // Add the digit to the reversed number
-            reversed = reversed * 10 + currentDigit;
+        // step2: Signedness
+        // the number starts with a character (we return 0)
+        if(Character.isAlphabetic(s.charAt(0)) || s.charAt(0)=='.'){
+            return 0;
         }
 
-        return reversed;
+        if(s.charAt(0) == '-'){
+            sign = -1;
+            currentChar++;
+        }
+        else if(s.charAt(0) == '+')
+            currentChar++;
+
+        // step3: reading the number
+        while(currentChar < s.length() && Character.isDigit(s.charAt(currentChar))){
+            int digit = s.charAt(currentChar) - '0';
+
+            if (result > Integer.MAX_VALUE / 10 || (result == Integer.MAX_VALUE / 10 && digit > 7)) {
+                return Integer.MAX_VALUE;  // Overflow for positive number
+            }
+            if (result < Integer.MIN_VALUE / 10 || (result == Integer.MIN_VALUE / 10 && digit*sign < 8)) {
+                return Integer.MIN_VALUE;  // Overflow for negative number
+            }
+            result = result*10 + digit*sign;
+            currentChar++;
+        }
+
+        return result;
     }
 }
