@@ -19,35 +19,32 @@ class SolutionTest {
     @Order(1)
     @DisplayName("Test one")
     public void testOne(){
-        assertEquals(42, solution.myAtoi("42"));
+        assertEquals(49, solution.maxArea(new int[]{1,8,6,2,5,4,8,3,7}));
     }
 
     @Test
     @Order(2)
     @DisplayName("Test Two")
     public void testTwo(){
-        assertEquals(-42, solution.myAtoi(" -042"));
+        assertEquals(1, solution.maxArea(new int[]{1,1}));
     }
 
     @Test
     @Order(3)
     @DisplayName("Test Three")
     public void testThree(){
-        assertEquals(1337, solution.myAtoi("1337c0d3"));
     }
 
     @Test
     @Order(4)
     @DisplayName("Test Four")
     public void testFour(){
-        assertEquals(0, solution.myAtoi("0-1"));
     }
 
     @Test
     @Order(5)
     @DisplayName("Test Five")
     public void testFive(){
-        assertEquals(Integer.MIN_VALUE, solution.myAtoi("-2147483649"));
     }
 
 
