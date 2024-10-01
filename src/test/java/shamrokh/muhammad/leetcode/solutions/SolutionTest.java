@@ -19,28 +19,27 @@ class SolutionTest {
     @Order(1)
     @DisplayName("Test one")
     public void testOne(){
-        assertEquals("PAHNAPLSIIGYIR", solution.convert("PAYPALISHIRING", 3));
+        assertEquals(321, solution.reverse(123));
     }
 
     @Test
     @Order(2)
     @DisplayName("Test Two")
     public void testTwo(){
-        assertEquals("PINALSIGYAHRPI", solution.convert("PAYPALISHIRING", 4));
+        assertEquals(-321, solution.reverse(-123));
     }
 
     @Test
     @Order(3)
     @DisplayName("Test Three")
     public void testThree(){
-        assertEquals("A", solution.convert("A", 1));
+        assertEquals(21, solution.reverse(120));
     }
 
     @Test
     @Order(3)
     @DisplayName("Test Four")
     public void testFour(){
-        assertEquals("AB", solution.convert("AB", 1));
     }
 
 
