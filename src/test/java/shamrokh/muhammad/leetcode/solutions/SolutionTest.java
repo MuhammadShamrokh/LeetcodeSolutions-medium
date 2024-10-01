@@ -19,20 +19,21 @@ class SolutionTest {
     @Order(1)
     @DisplayName("Test one")
     public void testOne(){
-        assertEquals(49, solution.maxArea(new int[]{1,8,6,2,5,4,8,3,7}));
+        assertEquals("MMMDCCXLIX", solution.intToRoman(3749));
     }
 
     @Test
     @Order(2)
     @DisplayName("Test Two")
     public void testTwo(){
-        assertEquals(1, solution.maxArea(new int[]{1,1}));
+        assertEquals("LVIII", solution.intToRoman(58));
     }
 
     @Test
     @Order(3)
     @DisplayName("Test Three")
     public void testThree(){
+        assertEquals("MCMXCIV", solution.intToRoman(1994));
     }
 
     @Test
