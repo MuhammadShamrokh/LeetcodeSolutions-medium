@@ -19,6 +19,7 @@ class SolutionTest {
     @Order(1)
     @DisplayName("Test one")
     public void testOne(){
+        assertEquals("bb", solution.longestPalindrome("bb"));
     }
 
     @Test
