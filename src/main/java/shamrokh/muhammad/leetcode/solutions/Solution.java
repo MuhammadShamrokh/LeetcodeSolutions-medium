@@ -1,38 +1,45 @@
 package shamrokh.muhammad.leetcode.solutions;
 
+
 class Solution {
-    public String longestPalindrome(String s) {
-        int[] substringResultIndex = new int[2];
-        int longestPalindromeLength = 0;
+    public String convert(String s, int numRows) {
+        //edge case, number of rows is 1
+        if(numRows == 1)
+            return s;
 
-        for(int i=0;i<s.length();i++){
-            int left = i;
-            int right = i;
-            // odd palindrome substring length
-            longestPalindromeLength = checkLongestPalindromeLength(left, right, s, substringResultIndex, longestPalindromeLength);
+        StringBuilder[] strings = new StringBuilder[numRows];
+        int currentDirection = 1;
+        int scanner = 0;
+        int currentIndex = 0;
 
-            //even palindrome substring length
-            right = i+1;
-            longestPalindromeLength = checkLongestPalindromeLength(left, right, s, substringResultIndex, longestPalindromeLength);
+        // initialing all lines string builders
+        for(int i=0;i< numRows;i++){
+            strings[i] = new StringBuilder();
         }
 
-        return s.substring(substringResultIndex[0], substringResultIndex[1] + 1);
-    }
+        // scanning the string to apply zigzag conversion
+        while(currentIndex < s.length()){
+            // placing current index in the current line.
+            strings[scanner].append(s.charAt(currentIndex));
 
-    private int checkLongestPalindromeLength(int left, int right, String s, int[] palindromeIndexes, int currentLongestLength){
-        int stringLength = s.length();
+            // moving to the next line
+            scanner += currentDirection;
+            // we reached the last line, we switch to backward moving direction
+            if(scanner == numRows-1)
+                currentDirection = -1;
+            // we reached the first line, we switch to forward moving direction
+            if(scanner == 0)
+                currentDirection = 1;
 
-        while(left >=0 && right <stringLength && s.charAt(left)==s.charAt(right)){
-            if(right - left > currentLongestLength){
-                palindromeIndexes[0] = left;
-                palindromeIndexes[1] = right;
-                currentLongestLength = right-left;
-            }
-
-            left --;
-            right ++;
+            // update current scanning string index
+            currentIndex++;
         }
 
-        return currentLongestLength;
+        // assembling the result string in strings[0]
+        for(int i=1;i<numRows;i++){
+            strings[0].append(strings[i].toString());
+        }
+
+        return strings[0].toString();
     }
 }
