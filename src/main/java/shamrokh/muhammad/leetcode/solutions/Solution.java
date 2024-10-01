@@ -1,60 +1,39 @@
 package shamrokh.muhammad.leetcode.solutions;
 
-import shamrokh.muhammad.leetcode.datastructure.ListNode;
+import java.util.HashMap;
+import java.util.Map;
 
 class Solution {
-    private final int BASE = 10;
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode listOneScanner = l1.next;
-        ListNode listTwoScanner = l2.next;
+    public int lengthOfLongestSubstring(String s) {
+        // edge case: empty or 1 character string
+        if(s.isEmpty() || s.length() == 1)
+            return s.length();
 
-        ListNode resultHead = new ListNode((l1.val + l2.val)%BASE);
-        int carry = (l1.val + l2.val)/BASE;
-        ListNode resultScanner = resultHead;
+        Map<Character, Integer> lastSeenIndex = new HashMap<>();
+        int leftIndex = 0;
+        int rightIndex = 0;
+        int longestSubstringLength = 0;
 
-        while(listOneScanner != null && listTwoScanner != null){
-            int sum = listOneScanner.val + listTwoScanner.val + carry;
-            ListNode node = new ListNode();
+        while(rightIndex < s.length()){
+            char currentChar = s.charAt(rightIndex);
+            // we have seen the character before
+            if(lastSeenIndex.containsKey(currentChar)) {
+                // checking if the last appearance of the character is inside the sliding window
+                if (lastSeenIndex.get(currentChar) >= leftIndex) {
+                    // updating the left side of the sliding window
+                    leftIndex = lastSeenIndex.get(currentChar) + 1;
+                }
+            }
 
-            node.val = (sum%BASE);
-            carry = sum/BASE;
-
-            resultScanner.next = node;
-            resultScanner = resultScanner.next;
-            listOneScanner = listOneScanner.next;
-            listTwoScanner = listTwoScanner.next;
+            // updating the current char last seen index in map
+            lastSeenIndex.put(currentChar, rightIndex);
+            // updating the right side of the sliding window to continue scanning
+            rightIndex++;
+            // checking if we are facing a new longest substring
+            longestSubstringLength = Math.max(longestSubstringLength, rightIndex-leftIndex);
 
         }
 
-        while(listOneScanner != null){
-            int sum = listOneScanner.val + carry;
-            ListNode node = new ListNode();
-
-            node.val = (sum%BASE);
-            carry = sum/BASE;
-
-            resultScanner.next = node;
-            resultScanner = resultScanner.next;
-            listOneScanner = listOneScanner.next;
-        }
-
-        while(listTwoScanner != null){
-            int sum = listTwoScanner.val + carry;
-            ListNode node = new ListNode();
-
-            node.val = (sum%BASE);
-            carry = sum/BASE;
-
-            resultScanner.next = node;
-            resultScanner = resultScanner.next;
-            listTwoScanner = listTwoScanner.next;
-        }
-
-        if(carry != 0){
-            ListNode node = new ListNode(carry);
-            resultScanner.next = node;
-        }
-
-        return resultHead;
+        return longestSubstringLength;
     }
 }
