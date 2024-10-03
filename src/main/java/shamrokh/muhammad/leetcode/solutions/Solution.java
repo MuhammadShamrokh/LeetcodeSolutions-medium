@@ -1,42 +1,52 @@
 package shamrokh.muhammad.leetcode.solutions;
 
-import java.util.Arrays;
+import java.util.*;
 
 
 public class Solution {
-    public int threeSumClosest(int[] nums, int target) {
-        // Sort the array to use the two-pointer approach
-        Arrays.sort(nums);
-        int closestSum = nums[0] + nums[1] + nums[2]; // Initialize with the first possible sum
+    private final String[] DIGITS_LETTERS = new String[]{
+            "", // 0
+            "", // 1
+            "abc", // 2
+            "def", // 3
+            "ghi", // 4
+            "jkl", // 5
+            "mno", // 6
+            "pqrs",// 7
+            "tuv", // 8
+            "wxyz" // 9
+    };
 
-        // Iterate through the array
-        for (int i = 0; i < nums.length - 2; i++) {
-            int left = i + 1;
-            int right = nums.length - 1;
+    public List<String> letterCombinations(String digits) {
+        // edge case: empty input
+        if(digits == null || digits.isEmpty())
+            return new ArrayList<>();
 
-            // Use two pointers to find the best sum for the current `nums[i]`
-            while (left < right) {
-                int currentSum = nums[i] + nums[left] + nums[right];
+        List<String> result = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
 
-                // If this sum is closer to the target, update `closestSum`
-                if (Math.abs(currentSum - target) < Math.abs(closestSum - target)) {
-                    closestSum = currentSum;
-                }
+        // recursive function to build all combinations
+        buildCombinations(result, sb, digits, 0);
 
-                // Move the pointers to try and get closer to the target
-                if (currentSum < target) {
-                    left++;  // Increase the sum by moving the left pointer to the right
-                } else if (currentSum > target) {
-                    right--; // Decrease the sum by moving the right pointer to the left
-                } else {
-                    // If the current sum is exactly equal to the target, return it
-                    return currentSum;
-                }
-            }
+        return result;
+    }
+
+    private void buildCombinations(List<String> result, StringBuilder sb, String digits, int currentIndex) {
+        if(currentIndex == digits.length()){
+            result.add(sb.toString());
+            return;
         }
 
-        // Return the closest sum found
-        return closestSum;
+        // extracting the current digit letters.
+        String numberCharacters = DIGITS_LETTERS[digits.charAt(currentIndex) - '0'];
+
+        // iterating over letters to build combinations
+        for(char c:numberCharacters.toCharArray()){
+            sb.append(c);
+            // recursively combine with next digit letters.
+            buildCombinations(result,sb,digits,currentIndex+1);
+            sb.deleteCharAt(sb.length()-1);
+        }
     }
 }
 
