@@ -19,12 +19,14 @@ class SolutionTest {
     @Order(1)
     @DisplayName("Test one")
     public void testOne(){
+        assertEquals(2, solution.threeSumClosest(new int[]{-1,2,1,-4}, 1));
     }
 
     @Test
     @Order(2)
     @DisplayName("Test Two")
     public void testTwo(){
+        assertEquals(0, solution.threeSumClosest(new int[]{0,0,0},1));
     }
 
     @Test

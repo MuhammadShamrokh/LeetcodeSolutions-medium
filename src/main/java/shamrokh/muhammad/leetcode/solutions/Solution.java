@@ -1,50 +1,43 @@
 package shamrokh.muhammad.leetcode.solutions;
-import java.util.*;
+
+import java.util.Arrays;
+
 
 public class Solution {
-    public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-
-        // Step 1: Sort the array
+    public int threeSumClosest(int[] nums, int target) {
+        // Sort the array to use the two-pointer approach
         Arrays.sort(nums);
+        int closestSum = nums[0] + nums[1] + nums[2]; // Initialize with the first possible sum
 
-        // Step 2: Iterate through the array
+        // Iterate through the array
         for (int i = 0; i < nums.length - 2; i++) {
-            // Skip duplicates for the current element
-            if (i > 0 && nums[i] == nums[i - 1])
-                continue;
+            int left = i + 1;
+            int right = nums.length - 1;
 
-            // Step 3: Use two-pointer technique for finding the other two elements
-            twoSum(nums, i, result);
-        }
+            // Use two pointers to find the best sum for the current `nums[i]`
+            while (left < right) {
+                int currentSum = nums[i] + nums[left] + nums[right];
 
+                // If this sum is closer to the target, update `closestSum`
+                if (Math.abs(currentSum - target) < Math.abs(closestSum - target)) {
+                    closestSum = currentSum;
+                }
 
-        return result;
-    }
-
-    private void twoSum(int[] nums, int i, List<List<Integer>> result){
-        int left = i + 1;
-        int right = nums.length - 1;
-        int target = -nums[i];
-
-        while (left < right) {
-            int sum = nums[left] + nums[right];
-
-            if (sum == target) {
-                result.add(Arrays.asList(nums[i], nums[left], nums[right]));
-
-                // Skip duplicates for the second and third elements
-                while (left < right && nums[left] == nums[left + 1]) left++;
-                while (left < right && nums[right] == nums[right - 1]) right--;
-
-                // Move both pointers
-                left++;
-                right--;
-            } else if (sum < target) {
-                left++;
-            } else {
-                right--;
+                // Move the pointers to try and get closer to the target
+                if (currentSum < target) {
+                    left++;  // Increase the sum by moving the left pointer to the right
+                } else if (currentSum > target) {
+                    right--; // Decrease the sum by moving the right pointer to the left
+                } else {
+                    // If the current sum is exactly equal to the target, return it
+                    return currentSum;
+                }
             }
         }
+
+        // Return the closest sum found
+        return closestSum;
     }
 }
+
+
