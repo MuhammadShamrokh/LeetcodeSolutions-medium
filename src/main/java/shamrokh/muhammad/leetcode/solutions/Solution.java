@@ -4,50 +4,58 @@ import java.util.*;
 
 
 public class Solution {
-    private final String[] DIGITS_LETTERS = new String[]{
-            "", // 0
-            "", // 1
-            "abc", // 2
-            "def", // 3
-            "ghi", // 4
-            "jkl", // 5
-            "mno", // 6
-            "pqrs",// 7
-            "tuv", // 8
-            "wxyz" // 9
-    };
-
-    public List<String> letterCombinations(String digits) {
-        // edge case: empty input
-        if(digits == null || digits.isEmpty())
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        // if nums doesnt include 4 elements, we return empty result.
+        if(nums == null || nums.length < 4){
             return new ArrayList<>();
+        }
 
-        List<String> result = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
+        // nums has 4 or more elements
+        List<List<Integer>> result = new ArrayList<>();
 
-        // recursive function to build all combinations
-        buildCombinations(result, sb, digits, 0);
+        // sorting array for more efficient two sum (2 pointers) and duplicate skipping
+        Arrays.sort(nums);
+
+        for(int i=0;i<nums.length - 3;i++){
+            // skip duplicates
+            if(i>0 && nums[i-1] == nums[i])
+                continue;
+
+            for(int j=i+1;j<nums.length -2;j++){
+                // skip duplicates
+                if(j>i+1 && nums[j-1] == nums[j])
+                    continue;
+
+                int left = j+1;
+                int right = nums.length -1;
+
+                while(left < right){
+                    long sum = (long)nums[i]+nums[j]+nums[left]+nums[right];
+
+                    // we found 4 elements that their sum is equal to target
+                    if(sum == target){
+                        result.add(List.of(nums[i],nums[j],nums[left],nums[right]));
+
+                        while(left<right && nums[left] == nums[left+1])
+                            left++;
+
+                        while(right > left && nums[right]== nums[right-1])
+                            right--;
+
+                        left++;
+                        right--;
+                    } else if(sum < target){
+                        left++;
+                    } else { // sum < target
+                        right--;
+                    }
+                }
+            }
+        }
 
         return result;
     }
 
-    private void buildCombinations(List<String> result, StringBuilder sb, String digits, int currentIndex) {
-        if(currentIndex == digits.length()){
-            result.add(sb.toString());
-            return;
-        }
-
-        // extracting the current digit letters.
-        String numberCharacters = DIGITS_LETTERS[digits.charAt(currentIndex) - '0'];
-
-        // iterating over letters to build combinations
-        for(char c:numberCharacters.toCharArray()){
-            sb.append(c);
-            // recursively combine with next digit letters.
-            buildCombinations(result,sb,digits,currentIndex+1);
-            sb.deleteCharAt(sb.length()-1);
-        }
-    }
 }
 
 
