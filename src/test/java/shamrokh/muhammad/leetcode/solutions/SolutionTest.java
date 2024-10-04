@@ -3,6 +3,10 @@ package shamrokh.muhammad.leetcode.solutions;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -16,16 +20,23 @@ class SolutionTest {
 
     @Test
     @Order(1)
-    @DisplayName("Test one")
+    @DisplayName("Equal lists (ignoring order)")
     public void testOne(){
+        List<String> expected = List.of("((()))","(()())","(())()","()(())","()()()");
+        List<String> actual = solution.generateParenthesis(3);
 
+        assertEquals(expected.size(), actual.size());
+        assertTrue(expected.containsAll(actual));
+        assertTrue(actual.containsAll(expected));
     }
 
     @Test
     @Order(2)
     @DisplayName("Test Two")
     public void testTwo(){
+        List<String> expected = List.of("()");
 
+        assertIterableEquals(expected, solution.generateParenthesis(1));
     }
 
     @Test

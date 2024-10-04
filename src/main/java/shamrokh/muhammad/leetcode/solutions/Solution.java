@@ -1,47 +1,37 @@
 package shamrokh.muhammad.leetcode.solutions;
 
-import shamrokh.muhammad.leetcode.datastructure.ListNode;
-
 import java.util.*;
 
 
 public class Solution {
-    public ListNode removeNthFromEnd(ListNode head, int n) {
+    StringBuilder sb=new StringBuilder();
+    List<String> result=new ArrayList<>();
+    int length=0;
 
-        ListNode scanner = head;
-        int counter = 1;
-        int listLength = countListLength(head);
+    public List<String> generateParenthesis(int n) {
+        length=n;
 
-        // edge case, list has 1 node and we have to remove it
-        if(listLength == 1)
-            return null;
-
-        //edge case, we have to delete the head of the node
-        if(listLength == n){
-            return head.next;
-        }
-
-        // scanning the list till we reach the nth previous node
-        while(counter <  listLength - n){
-            scanner = scanner.next;
-            counter++;
-        }
-
-        //removing the nth node
-        scanner.next = scanner.next.next;
-
-        return head;
+        generateParenthesis(0,0);
+        return result;
     }
 
-    private int countListLength(ListNode head) {
-        int counter = 0;
+    private void generateParenthesis(int open,int close){
 
-        while(head != null){
-            counter++;
-            head = head.next;
+        if(sb.length()==length*2) {
+            result.add(sb.toString());
         }
 
-        return counter;
+        if(open<length){
+            sb.append("(");
+            generateParenthesis(open+1,close);
+            sb.deleteCharAt(sb.length()-1);
+        }
+
+        if(close<open){
+            sb.append(")");
+            generateParenthesis(open,close+1);
+            sb.deleteCharAt(sb.length()-1);
+        }
     }
 }
 
