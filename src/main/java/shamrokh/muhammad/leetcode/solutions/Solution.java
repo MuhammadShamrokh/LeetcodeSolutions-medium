@@ -1,61 +1,48 @@
 package shamrokh.muhammad.leetcode.solutions;
 
+import shamrokh.muhammad.leetcode.datastructure.ListNode;
+
 import java.util.*;
 
 
 public class Solution {
-    public List<List<Integer>> fourSum(int[] nums, int target) {
-        // if nums doesnt include 4 elements, we return empty result.
-        if(nums == null || nums.length < 4){
-            return new ArrayList<>();
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+
+        ListNode scanner = head;
+        int counter = 1;
+        int listLength = countListLength(head);
+
+        // edge case, list has 1 node and we have to remove it
+        if(listLength == 1)
+            return null;
+
+        //edge case, we have to delete the head of the node
+        if(listLength == n){
+            return head.next;
         }
 
-        // nums has 4 or more elements
-        List<List<Integer>> result = new ArrayList<>();
-
-        // sorting array for more efficient two sum (2 pointers) and duplicate skipping
-        Arrays.sort(nums);
-
-        for(int i=0;i<nums.length - 3;i++){
-            // skip duplicates
-            if(i>0 && nums[i-1] == nums[i])
-                continue;
-
-            for(int j=i+1;j<nums.length -2;j++){
-                // skip duplicates
-                if(j>i+1 && nums[j-1] == nums[j])
-                    continue;
-
-                int left = j+1;
-                int right = nums.length -1;
-
-                while(left < right){
-                    long sum = (long)nums[i]+nums[j]+nums[left]+nums[right];
-
-                    // we found 4 elements that their sum is equal to target
-                    if(sum == target){
-                        result.add(List.of(nums[i],nums[j],nums[left],nums[right]));
-
-                        while(left<right && nums[left] == nums[left+1])
-                            left++;
-
-                        while(right > left && nums[right]== nums[right-1])
-                            right--;
-
-                        left++;
-                        right--;
-                    } else if(sum < target){
-                        left++;
-                    } else { // sum < target
-                        right--;
-                    }
-                }
-            }
+        // scanning the list till we reach the nth previous node
+        while(counter <  listLength - n){
+            scanner = scanner.next;
+            counter++;
         }
 
-        return result;
+        //removing the nth node
+        scanner.next = scanner.next.next;
+
+        return head;
     }
 
+    private int countListLength(ListNode head) {
+        int counter = 0;
+
+        while(head != null){
+            counter++;
+            head = head.next;
+        }
+
+        return counter;
+    }
 }
 
 
