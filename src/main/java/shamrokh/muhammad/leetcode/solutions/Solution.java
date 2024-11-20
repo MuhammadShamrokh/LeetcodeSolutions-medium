@@ -1,41 +1,40 @@
 package shamrokh.muhammad.leetcode.solutions;
 
-import shamrokh.muhammad.leetcode.datastructure.ListNode;
 
-public class Solution {
-    public ListNode swapPairs(ListNode head) {
-        // 0 or 1 size list
-        if(head == null || head.next == null)
-            return head;
-
-        ListNode firstPointer = head;
-        ListNode secondPointer = head.next;
-        ListNode previousPointer = null;
-        // setting the new head of the list
-        head = head.next;
-
-        while(firstPointer != null && secondPointer != null){
-            // swapping pointers
-            if(previousPointer != null)
-                previousPointer.next = secondPointer;
-
-            ListNode next = secondPointer.next;
-            secondPointer.next = firstPointer;
-            firstPointer.next = next;
-
-            // moving working pointers forward
-            previousPointer = firstPointer;
-            firstPointer = next;
-            if(next != null)
-                secondPointer = next.next;
-            else
-                secondPointer = null;
-
-
+class Solution {
+    public int divide(int dividend, int divisor) {
+        // Handle edge case for overflow
+        if (dividend == Integer.MIN_VALUE && divisor == -1) {
+            return Integer.MAX_VALUE;
         }
 
-        return head;
+        // Determine the sign of the result
+        boolean isNegative = (dividend < 0) ^ (divisor < 0);
+
+        // Work with absolute values
+        long absDividend = Math.abs((long) dividend);
+        long absDivisor = Math.abs((long) divisor);
+
+        int quotient = 0;
+
+        // Subtract multiples of the divisor using bit shifting
+        while (absDividend >= absDivisor) {
+            long tempDivisor = absDivisor;
+            int numShifts = 0;
+
+            while (absDividend >= (tempDivisor << 1)) {
+                tempDivisor <<= 1;
+                numShifts++;
+            }
+
+            absDividend -= tempDivisor;
+            quotient += (1 << numShifts);
+        }
+
+        // Apply the sign to the result
+        return isNegative ? -quotient : quotient;
     }
 }
+
 
 

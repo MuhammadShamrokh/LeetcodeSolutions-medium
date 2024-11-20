@@ -20,14 +20,20 @@ class SolutionTest {
     @Order(1)
     @DisplayName("Equal lists (ignoring order)")
     public void testOne(){
-
+        //Input: dividend = 10, divisor = 3
+        //Output: 3
+        //Explanation: 10/3 = 3.33333.. which is truncated to 3.
+        assertEquals(3, solution.divide(10, 3));
     }
 
     @Test
     @Order(2)
     @DisplayName("Test Two")
     public void testTwo(){
-
+        //Input: dividend = 7, divisor = -3
+        //Output: -2
+        //Explanation: 7/-3 = -2.33333.. which is truncated to -2.
+        assertEquals(-2, solution.divide(7, -3));
     }
 
     @Test
