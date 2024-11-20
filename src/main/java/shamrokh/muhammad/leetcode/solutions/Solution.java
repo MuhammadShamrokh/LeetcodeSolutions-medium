@@ -1,37 +1,40 @@
 package shamrokh.muhammad.leetcode.solutions;
 
-import java.util.*;
-
+import shamrokh.muhammad.leetcode.datastructure.ListNode;
 
 public class Solution {
-    StringBuilder sb=new StringBuilder();
-    List<String> result=new ArrayList<>();
-    int length=0;
+    public ListNode swapPairs(ListNode head) {
+        // 0 or 1 size list
+        if(head == null || head.next == null)
+            return head;
 
-    public List<String> generateParenthesis(int n) {
-        length=n;
+        ListNode firstPointer = head;
+        ListNode secondPointer = head.next;
+        ListNode previousPointer = null;
+        // setting the new head of the list
+        head = head.next;
 
-        generateParenthesis(0,0);
-        return result;
-    }
+        while(firstPointer != null && secondPointer != null){
+            // swapping pointers
+            if(previousPointer != null)
+                previousPointer.next = secondPointer;
 
-    private void generateParenthesis(int open,int close){
+            ListNode next = secondPointer.next;
+            secondPointer.next = firstPointer;
+            firstPointer.next = next;
 
-        if(sb.length()==length*2) {
-            result.add(sb.toString());
+            // moving working pointers forward
+            previousPointer = firstPointer;
+            firstPointer = next;
+            if(next != null)
+                secondPointer = next.next;
+            else
+                secondPointer = null;
+
+
         }
 
-        if(open<length){
-            sb.append("(");
-            generateParenthesis(open+1,close);
-            sb.deleteCharAt(sb.length()-1);
-        }
-
-        if(close<open){
-            sb.append(")");
-            generateParenthesis(open,close+1);
-            sb.deleteCharAt(sb.length()-1);
-        }
+        return head;
     }
 }
 
