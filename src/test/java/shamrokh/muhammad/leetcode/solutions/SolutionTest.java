@@ -18,35 +18,59 @@ class SolutionTest {
 
     @Test
     @Order(1)
-    @DisplayName("Equal lists (ignoring order)")
+    @DisplayName("Test One")
     public void testOne(){
-        //Input: dividend = 10, divisor = 3
-        //Output: 3
-        //Explanation: 10/3 = 3.33333.. which is truncated to 3.
-        assertEquals(3, solution.divide(10, 3));
+        //Input: nums = [1,2,3]
+        //Output: [1,3,2]
+        int[] expected = new int[]{1, 3, 2};
+        int[] input = new int[]{1,2,3};
+
+        solution.nextPermutation(input);
+
+        assertArrayEquals(expected, input);
     }
 
     @Test
     @Order(2)
     @DisplayName("Test Two")
     public void testTwo(){
-        //Input: dividend = 7, divisor = -3
-        //Output: -2
-        //Explanation: 7/-3 = -2.33333.. which is truncated to -2.
-        assertEquals(-2, solution.divide(7, -3));
+        //Input: nums = [3,2,1]
+        //Output: [1,2,3]
+        int[] expected = new int[]{1,2,3};
+        int[] input = new int[]{3,2,1};
+
+        solution.nextPermutation(input);
+
+        assertArrayEquals(expected, input);
     }
 
     @Test
     @Order(3)
     @DisplayName("Test Three")
     public void testThree(){
+        //Input: nums = [1,1,5]
+        //Output: [1,5,1]
+        int[] expected = new int[]{1,5,1};
+        int[] input = new int[]{1,1,5};
 
+        solution.nextPermutation(input);
+
+        assertArrayEquals(expected, input);
     }
 
     @Test
     @Order(4)
     @DisplayName("Test Four")
     public void testFour(){
+        //Input: nums = [1,3,2]
+        //Output: [2,1,3]
+
+        int[] expected = new int[]{2,1,3};
+        int[] input = new int[]{1,3,2};
+
+        solution.nextPermutation(input);
+
+        assertArrayEquals(expected, input);
     }
 
     @Test

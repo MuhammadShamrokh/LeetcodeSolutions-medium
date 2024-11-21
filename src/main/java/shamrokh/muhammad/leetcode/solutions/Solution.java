@@ -1,38 +1,54 @@
 package shamrokh.muhammad.leetcode.solutions;
 
-
 class Solution {
-    public int divide(int dividend, int divisor) {
-        // Handle edge case for overflow
-        if (dividend == Integer.MIN_VALUE && divisor == -1) {
-            return Integer.MAX_VALUE;
+    public void nextPermutation(int[] nums) {
+        //edge case
+        if(nums.length == 1){
+            return;
         }
 
-        // Determine the sign of the result
-        boolean isNegative = (dividend < 0) ^ (divisor < 0);
+        // finding first element from end that ruin the asc order
+        int nonAscOrderElemIndex = -1;
 
-        // Work with absolute values
-        long absDividend = Math.abs((long) dividend);
-        long absDivisor = Math.abs((long) divisor);
-
-        int quotient = 0;
-
-        // Subtract multiples of the divisor using bit shifting
-        while (absDividend >= absDivisor) {
-            long tempDivisor = absDivisor;
-            int numShifts = 0;
-
-            while (absDividend >= (tempDivisor << 1)) {
-                tempDivisor <<= 1;
-                numShifts++;
+        for(int i=nums.length-2;i>=0;i--){
+            if(nums[i] < nums[i+1]){
+                nonAscOrderElemIndex = i;
+                break;
             }
-
-            absDividend -= tempDivisor;
-            quotient += (1 << numShifts);
         }
 
-        // Apply the sign to the result
-        return isNegative ? -quotient : quotient;
+        // all elements in nums are in desc order (we return to the smallest permutation)
+        if(nonAscOrderElemIndex == -1){
+            swapArray(nums, 0, nums.length -1);
+            return;
+        }
+
+        // not all elements in nums are in desc order
+        // finding first element from the end that is bigger than the non asc order element
+        for(int i=nums.length -1;i>=nonAscOrderElemIndex;i--) {
+            if(nums[i]>nums[nonAscOrderElemIndex]){
+                swap(nums, i, nonAscOrderElemIndex);
+                break;
+            }
+        }
+
+        //swapping the asc order part
+        swapArray(nums, nonAscOrderElemIndex +1, nums.length - 1);
+    }
+
+    private void swapArray(int[] nums, int start, int end) {
+
+        while(start < end){
+            swap(nums,start,end);
+            start++;
+            end--;
+        }
+    }
+
+    private void swap(int[] nums, int i1, int i2) {
+        int tmp = nums[i1];
+        nums[i1]=nums[i2];
+        nums[i2]=tmp;
     }
 }
 
